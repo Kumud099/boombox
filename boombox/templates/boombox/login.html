@@ -1,0 +1,93 @@
+{% extends 'boombox/basic.html' %}
+{% block title %}Login{% endblock %}
+
+{% block body %}
+<style>
+    body {
+        background: linear-gradient(to right, #1e3c72, #2a5298);
+        color: white;
+    }
+    .container {
+        max-width: 400px;
+        background: rgba(255, 255, 255, 0.1);
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        margin-top: 50px;
+    }
+    .form-group label {
+        color: white;
+    }
+    .toggle-link {
+        color: lightblue;
+        cursor: pointer;
+    }
+    .navbar {
+        display: none; /* Hiding the navbar */
+    }
+</style>
+
+<div class="container my-3">
+    <h2 id="form-title">Login</h2>
+    <form id="login-form" action="/boombox/login" method="POST">{% csrf_token %}
+        <div class="form-group">
+            <label for="username">Username</label>
+            <input type="text" class="form-control" id="username" name="username" placeholder="Your Username">
+        </div>
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" class="form-control" id="password" name="password" placeholder="Password">
+        </div>
+        <button type="submit" class="btn btn-primary">Login</button>
+        <p class="mt-3">Don't have an account? <span class="toggle-link" onclick="toggleForm()">Sign Up</span></p>
+    </form>
+
+    <form id="signup-form" action="/boombox/signup" method="POST" style="display: none;">{% csrf_token %}
+        <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" class="form-control" id="email" name="email" placeholder="Your Email">
+        </div>
+        <div class="form-group">
+            <label for="new-username">Username</label>
+            <input type="text" class="form-control" id="new-username" name="username" placeholder="Choose a Username">
+        </div>
+        <div class="form-group">
+            <label for="firstname">First Name</label>
+            <input type="text" class="form-control" id="firstname" name="firstname" placeholder="First Name">
+        </div>
+        <div class="form-group">
+            <label for="lastname">Last Name</label>
+            <input type="text" class="form-control" id="lastname" name="lastname" placeholder="Last Name">
+        </div>
+        <div class="form-group">
+            <label for="new-password">Password</label>
+            <input type="password" class="form-control" id="new-password" name="pass1" placeholder="Create a Password">
+        </div>
+        <div class="form-group">
+            <label for="confirm-password">Password (again)</label>
+            <input type="password" class="form-control" id="confirm-password" name="pass2" placeholder="Confirm Password">
+        </div>
+        <button type="submit" class="btn btn-primary">Sign Up</button>
+        <p class="mt-3">Already have an account? <span class="toggle-link" onclick="toggleForm()">Login</span></p>
+    </form>
+</div>
+
+<script>
+    function toggleForm() {
+        const loginForm = document.getElementById("login-form");
+        const signupForm = document.getElementById("signup-form");
+        const formTitle = document.getElementById("form-title");
+        
+        if (loginForm.style.display === "none") {
+            loginForm.style.display = "block";
+            signupForm.style.display = "none";
+            formTitle.textContent = "Login";
+        } else {
+            loginForm.style.display = "none";
+            signupForm.style.display = "block";
+            formTitle.textContent = "Sign Up";
+        }
+    }
+</script>
+
+{% endblock %}

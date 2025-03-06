@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+    <script src="/media/images/soundmanagerv297a-20170601/script/soundmanager2.js"></script>
+    <title>{% block title %} {% endblock %}</title>
+    
+    <style>
+      body {
+        background: linear-gradient(90deg, #0e1527, #2b5a93);
+        color: #E0E7FF;
+      }
+      .navbar {
+        background-color: #112D4E !important;
+      }
+      .navbar-brand, .nav-link {
+        color: #F9F7F7 !important;
+      }
+      .navbar-toggler {
+        border-color: rgba(255,255,255,0.1);
+      }
+      .form-control {
+        background-color: #1B2A49;
+        border: 1px solid #3F72AF;
+        color: #E0E7FF;
+      }
+      .btn-outline-success {
+        border-color: #3F72AF;
+        color: #3F72AF;
+      }
+      .btn-outline-success:hover {
+        background-color: #3F72AF;
+        color: white;
+      }
+      .btn-danger {
+        background-color: #3F72AF;
+        border: none;
+      }
+      .btn-danger:hover {
+        background-color: #1B2A49;
+      }
+      .dropdown-menu {
+        background-color: #1B2A49;
+      }
+      .dropdown-item {
+        color: #E0E7FF;
+      }
+      .dropdown-item:hover {
+        background-color: #3F72AF;
+      }
+    </style>
+  </head>
+  <body>
+    {% load static %}
+    <nav class="navbar navbar-expand-lg navbar-dark">
+<a class="navbar-brand" href="/">
+  <img src="/static/boombox/icon.png" alt="MusicBeats Icon" width="30" height="30">
+  BOOMBOX
+</a>
+
+
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item active">
+            <a class="nav-link" href="/">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/boombox/songs/">All Songs</a>
+          </li>
+        </ul>
+        <form class="form-inline my-2 my-lg-0" method="GET" action="boombox/search" >
+          <input name='query' class="form-control mr-sm-1" type="search" placeholder="Search">
+          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+        </form>
+      </div>
+      {% if user.is_authenticated %}
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown">Welcome {{ request.user }}</a>
+            <div class="dropdown-menu">
+              <a class="dropdown-item" href="/boombox/c/{{ request.user }}">Your Channel</a>
+              <a class="dropdown-item" href="/boombox/upload">Upload Music</a>
+              <a class="dropdown-item" href="/boombox/watchlater">Listen Later</a>
+              <a class="dropdown-item" href="/boombox/history">History</a>
+              <a class="dropdown-item" onclick="logout()">Logout</a>
+            </div>
+          </li>
+        </ul>
+        <script>
+          function logout() {
+            Swal.fire({
+              title: 'Are you sure you want to log out?',
+              icon: 'warning',
+              showCancelButton: true,
+              confirmButtonColor: '#3F72AF',
+              cancelButtonColor: '#d33',
+              confirmButtonText: 'Yes!'
+            }).then((result) => {
+              if (result.value) {
+                document.location = "/boombox/logout_user";
+              }
+            });
+          }
+        </script>
+      {% else %}
+        <div class="my-2" style="padding-left: 1%;">
+          <a href="/boombox/login"><button class="btn btn-sm btn-danger">Login</button></a>
+          <a href="/boombox/signup"><button class="btn btn-sm btn-danger">Signup</button></a>
+        </div>
+      {% endif %}
+    </nav>
+    {% block body %}{% endblock %}
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    {% block js %}{% endblock %}
+  </body>
+</html>
